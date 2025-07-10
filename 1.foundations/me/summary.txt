@@ -1,0 +1,5 @@
+I’m a backend developer passionate about building scalable systems and intelligent software. With expertise in JavaScript, Go, and cloud technologies like AWS, I’ve engineered solutions across domains—from healthtech to e-commerce and blockchain/Web3. I enjoy tackling complex problems using microservices, containerization (Docker, Kubernetes), and event-driven architectures.
+
+Beyond backend systems, I’m diving deep into AI agent development, DevOps, and cybersecurity, blending my curiosity with structured learning. I’m also focused on creating tools that enhance productivity, like compliance agents and social media automation platforms.
+
+When I’m not coding, you’ll find me exploring the cosmos or strolling for inspiration.
