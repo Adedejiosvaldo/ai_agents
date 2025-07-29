@@ -1,7 +1,13 @@
-from crewai import Agent, Crew, Process, Task
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm_judge = LLM(model=os.getenv("GROQ_GEMMA_MODEL", "gemini/gemini-2.0-flash-lite-001")) 
 
 
 @CrewBase
@@ -20,7 +26,7 @@ class DebateAgent:
     @agent
     def judge(self) -> Agent:
         return Agent(
-            config=self.agents_config["judge"], verbose=True  # type: ignore[index]
+            config=self.agents_config["judge"], verbose=True, llm=llm_judge  # type: ignore[index]
         )
 
     @task
