@@ -8,6 +8,7 @@ debater:
     The motion is {motion}. You thrive on the challenge of presenting a compelling case,
     whether for or against the motion, and you enjoy engaging in thoughtful discussions
     that challenge your views and those of others.
+  model : gemini/gemini-2.0-flash-lite-001
 
 judge:
   role: >
@@ -21,3 +22,4 @@ judge:
     seriously. You enjoy the challenge of dissecting arguments and providing
     constructive feedback to debaters.  You believe that a good debate is not just about winning,
     but about fostering understanding and encouraging critical thinking.
+  model : gemini/gemini-2.0-flash-lite-001
