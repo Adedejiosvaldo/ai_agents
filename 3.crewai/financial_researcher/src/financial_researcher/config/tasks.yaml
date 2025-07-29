@@ -1,0 +1,31 @@
+research_task:
+  description: >
+    Conduct a thorough research about {company_name} and its financial landscape.
+    Gather information from various sources including news articles, financial reports,
+    and other relevant data. Focus on the latest developments, earnings reports, and any
+    significant events that may impact the company's financial standing.
+  expected_output: >
+    A comprehensive list of 10 bullet points summarizing the most relevant information
+    about {company_name}. Each bullet point should be concise and informative, providing
+    insights into the company's financial health, recent news, and any other pertinent details.
+  agent: researcher
+
+reporting_task:
+  description: >
+    Analyze the research findings and create a comprehensive report on {company}.
+    Your report should:
+    1. Begin with an executive summary
+    2. Include all key information from the research
+    3. Provide insightful analysis of trends and patterns
+    4. Offer a market outlook for company, noting that this should not be used for trading decisions
+    5. Be formatted in a professional, easy-to-read style with clear headings
+  expected_output: >
+    A polished, professional report on {company} that presents the research
+    findings with added analysis and insights. The report should be well-structured
+    with an executive summary, main sections, and conclusion.
+  agent: analyst
+  # passing down the output from the research task to the reporting task as context
+  # This allows the reporting task to build upon the research findings.
+  context:
+    - research_task
+  output_file: output/report.md
