@@ -79,4 +79,40 @@ class StockPicker:
             verbose=True,
         )
 
-    
+    @task
+    def find_trending_companies_task(self) -> Task:
+        """Trending companies task"""
+        return Task(
+            config=self.tasks_config["find_trending_companies"],
+            output_pydantic=TrendingCompanies,
+        )
+
+    @task
+    def research_trending_companies_task(self) -> Task:
+        """Research trending companies task"""
+        return Task(
+            config=self.tasks_config["research_trending_companies"],
+            output_pydantic=TrendingCompaniesResearchList,
+        )
+
+    @task
+    def pick_best_company_task(self) -> Task:
+        """Pick best company task"""
+        return Task(
+            config=self.tasks_config["pick_best_company"],
+        )
+
+    @crew
+    def crew(self) -> Crew:
+        """Creates the StockPicker crew"""
+
+        manager_agent = Agent(
+            config=self.agents_config["manager"], allow_delegation=True, verbose=True
+        )
+        return Crew(
+            agents=self.agents,
+            tasks=self.tasks,
+            process=Process.hierarchical,
+            verbose=True,
+            manager_agent=manager_agent,
+        )
