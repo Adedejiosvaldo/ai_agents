@@ -1,13 +1,52 @@
+from pydantic import BaseModel, Field
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
+
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
 
+
+class TrendingCompany(BaseModel):
+    """Trending company model"""
+
+    name: str = Field(description="Company name")
+    ticker: str = Field(description="Company ticker symbol")
+    reasons: str = Field(description="Reasons for trending")
+    url: str = Field(description="URL to the company's website")
+
+
+class TrendingCompanies(BaseModel):
+    """Trending companies model"""
+
+    companies: List[TrendingCompany] = Field(
+        description="List of trending companies based on latest news"
+    )
+
+
+class TrendingCompanyResearch(BaseModel):
+    """Trending company research model"""
+
+    company: TrendingCompany = Field(description="Trending company")
+    market_position: str = Field(description="Market position of the trending company")
+    future_outlook: str = Field(description="Future outlook of the trending company")
+    investment_potential: str = Field(
+        description="Investment potential of the trending company"
+    )
+
+
+class TrendingCompaniesResearchList(BaseModel):
+    """Trending companies research list model"""
+
+    research: List[TrendingCompanyResearch] = Field(
+        description="List of research on trending companies"
+    )
+
+
 @CrewBase
-class StockPicker():
+class StockPicker:
     """StockPicker crew"""
 
     agents: List[BaseAgent]
@@ -16,21 +55,20 @@ class StockPicker():
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
     # Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
-    
+
     # If you would like to add tools to your agents, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
     def researcher(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'], # type: ignore[index]
-            verbose=True
+            config=self.agents_config["researcher"], verbose=True  # type: ignore[index]
         )
 
     @agent
     def reporting_analyst(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'], # type: ignore[index]
-            verbose=True
+            config=self.agents_config["reporting_analyst"],  # type: ignore[index]
+            verbose=True,
         )
 
     # To learn more about structured task outputs,
@@ -39,14 +77,14 @@ class StockPicker():
     @task
     def research_task(self) -> Task:
         return Task(
-            config=self.tasks_config['research_task'], # type: ignore[index]
+            config=self.tasks_config["research_task"],  # type: ignore[index]
         )
 
     @task
     def reporting_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'], # type: ignore[index]
-            output_file='report.md'
+            config=self.tasks_config["reporting_task"],  # type: ignore[index]
+            output_file="report.md",
         )
 
     @crew
@@ -56,8 +94,8 @@ class StockPicker():
         # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
 
         return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
-            tasks=self.tasks, # Automatically created by the @task decorator
+            agents=self.agents,  # Automatically created by the @agent decorator
+            tasks=self.tasks,  # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
